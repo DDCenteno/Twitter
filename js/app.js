@@ -2,9 +2,11 @@ var textUser = document.getElementById('textArea');
 var boton = document.getElementById('boton');
 boton.disabled = true;
 var textCant = document.getElementsByClassName('counter');
+
 /* cantidad de caracteres dentro del textarea */
 boton.addEventListener('click', activeBoton);
 textUser.addEventListener('keyup', validateCaracters);
+textUser.addEventListener('keydown', resize);
 /* al hacer clicl al boton agregar dentro del div 
 ver 0.0.1 */
 function activeBoton(event) {
@@ -54,20 +56,33 @@ var counter = document.getElementById('counter');
 function textCounter(event) {
   var valueCant = textUser.value.length;
   var negative = '-';
-  counter.textContent = valueCant;
+  counter.textContent = 140 - valueCant;
   counter.style.float = 'right';
   counter.style.marginRight = '10px';
   // console.log(valueCant);
   // validamos maximo de colores
   if (valueCant > 0 && valueCant < 120) {
     counter.style.color = 'black';
+    // counter.textContent = negative + valueCant;
   } else if (valueCant >= 120 && valueCant < 130) {
-    counter.style.color = '#FF007C';
-  } else if (valueCant >= 130 && valueCant < 140) {
     counter.style.color = 'orange';
+  } else if (valueCant >= 130 && valueCant < 140) {
+    counter.style.color = 'purple';
   } else if (valueCant >= 140) {
-    counter.style.color = 'red';
-    counter.textContent = negative + valueCant;
     unactive();
+    counter.style.color = 'red';
+  }
+}
+// ver. 0.4 crecer txtArea de acuerdo al tamaño de texto
+function resize(event) {
+  var column = textUser.getAttribute('cols');
+  var rows = textUser.getAttribute('rows');
+  if (textUser.value.length !== 0) {
+    if (event.keyCode === 13 || parseInt(textUser.value.length) % 62 === 0) {
+      var rowsAdd = parseInt(rowsAdd) + 1;
+      textUser.setAttribute('rows', rowsAdd);
+    }
+  } else {
+    textUser.setAttribute('rows', 2);
   }
 }
